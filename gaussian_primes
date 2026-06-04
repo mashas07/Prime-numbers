@@ -1,0 +1,54 @@
+import matplotlib.pyplot as plt
+from sympy import isprime
+
+def is_gaussian_prime(z: complex) -> bool:
+    # Extract absolute integer values of the real and imaginary parts
+    a, b = int(abs(z.real)), int(abs(z.imag))
+    
+    # If it's on the real axis (b == 0), 'a' must be a prime congruent to 3 mod 4
+    if b == 0:
+        return isprime(a) and (a % 4 == 3)
+        
+    # If it's on the imaginary axis (a == 0), 'b' must be a prime congruent to 3 mod 4
+    if a == 0: #elif b == 0:
+        return isprime(b) and (b % 4 == 3)
+        
+    # If it's in a quadrant (neither is 0), a^2 + b^2 must be prime
+    return isprime(a**2 + b**2)
+
+# 1. Generate a list of all Gaussian primes in a -10 to 10 grid
+primes = [
+    complex(a, b) 
+    for a in range(-10, 11) 
+    for b in range(-10, 11) 
+    if (a != 0 or b != 0) and is_gaussian_prime(complex(a, b))
+]
+
+print(primes)
+
+# 2. Generate the grid coordinates (-50 to 50 for a denser, cooler pattern)
+R = 50
+x_coords = []
+y_coords = []
+
+for a in range(-R, R + 1):
+    for b in range(-R, R + 1):
+        if (a != 0 or b != 0) and is_gaussian_prime(complex(a, b)):
+            x_coords.append(a)
+            y_coords.append(b)
+
+# 3. plot everything in one go
+plt.figure(figsize=(8, 8))
+# plt.scatter(x_coords, y_coords, color='red', s=15, marker='o')
+plt.scatter(x_coords, y_coords, color=['b' if x==0 else 'r' if y==0 else 'g' for x, y in zip(x_coords, y_coords)], s=15, marker='o')
+
+# 4. Clean up graph
+plt.axhline(0, color='black', linewidth=0.5) # Real axis line
+plt.axvline(0, color='black', linewidth=0.5) # Imaginary axis line
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+plt.axis('equal') # Keeps the grid squares perfectly square
+plt.title('Gaussian Primes Scatter Plot')
+plt.xlabel('Real Axis (a)')
+plt.ylabel('Imaginary Axis (b)')
+
+plt.show()
