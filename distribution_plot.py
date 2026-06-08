@@ -524,11 +524,11 @@ ax3.plot([0, 0], [0, 1], transform=ax3.transAxes, **kwargs)  # left  edge ax3
 # ── Labels, title, legend ─────────────────────────────────────────────────────
 fig.suptitle('Distribution of Prime Types vs. Hardy-Littlewood Conjecture\n(log–log scale)',
              fontsize=14, color="#c71585")
-ax1.set_xlabel('Natural numbers', fontsize=11, color="#c71585")
+ax1.set_xlabel('Natural Number', fontsize=14, color="#c71585")
 ax2.set_xlabel('', fontsize=11)
 ax3.set_xlabel('', fontsize=11)
 
-ax1.set_ylabel('Number of Prime Numbers', fontsize=11, color="#c71585")
-ax1.legend(loc='upper left', fontsize=8)
+ax1.set_ylabel('Number of Prime Numbers', fontsize=14, color="#c71585")
+ax1.legend(loc='upper left', fontsize=12)
 
 plt.show()
