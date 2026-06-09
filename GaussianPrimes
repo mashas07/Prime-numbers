@@ -1,0 +1,48 @@
+def is_prime(n):
+    if n < 2:
+        return False
+
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 1
+
+    return True
+
+def is_gaussian_prime(a, b):
+
+    if a == 0:
+        return is_prime(abs(b)) and abs(b) % 4 == 3
+
+    if b == 0:
+        return is_prime(abs(a)) and abs(a) % 4 == 3
+
+    return is_prime(a*a + b*b)
+
+gaussian_primes = []
+
+for a in range(-20, 21):
+    for b in range(-20, 21):
+        if (a, b) != (0, 0):
+            if is_gaussian_prime(a, b):
+                gaussian_primes.append((a, b))
+print(str(gaussian_primes))
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+def get_coordinate(num, deg_sep):
+    radius = num
+    omega = deg_sep * np.pi/360
+    return radius * np.cos(omega * num), radius * np.sin(omega * num)
+
+def create_plot2(nums, figsize=8, s=None, show_annot=False):
+    nums = np.array(gaussian_primes)
+    x, y = get_coordinate(nums, 2)
+    plt.figure(figsize=(figsize, figsize))
+    plt.axis("off")
+    plt.scatter(x, y, s=s, color = '#DE7691')
+    plt.show()
+
+create_plot2(gaussian_primes, s=5)
